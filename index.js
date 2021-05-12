@@ -1,10 +1,31 @@
 const express = require('express')
 const app = express();
 const port = 3000;
- 
+const db = require('./global/database');
+
+
 app.get('/', function (req, res) {
   res.send('Hello World')
 })
+
+//Db conection
+
+// const connectionDB = async ()=> {
+//     try {
+
+//       await db.aunthenticate();
+      
+//     } catch (error) {
+  
+//       throw new Error(error);
+      
+//     }
+  
+// };
+
+
+
+//Otras config.
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 

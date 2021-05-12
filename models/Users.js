@@ -1,10 +1,7 @@
-const {
-    DataTypes
-} = require('sequelize');
-const dataBase = require('../global/database');
+const {DataTypes} = require('sequelize')
 
-const User = dataBase.define(
-    'User', {
+module.exports = (sequelize, type) =>{
+    return sequelize.define('User', {
         // Model attributes are defined here
         firstName: {
             type: DataTypes.STRING,
@@ -29,9 +26,10 @@ const User = dataBase.define(
             allowNull: false,
             unique: true
         },
-    },
-);
+    })
 
-User.sync();
+};
 
-module.exports =  User;
+//const dataBase = require('../global/database');
+
+//module.exports =  User;
