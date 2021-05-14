@@ -1,62 +1,37 @@
 const bcrypt = require('bcryptjs');
 
 const {
-    dataDB
-} = require('../data');
+    newUser
+} = require('../database/database');
 
-let dataDb = dataDB;
+const loginUser = async (req, res) => {
 
-// let salt = bcrypt.genSaltSync(10);
-
-
-const encryptPs = (pss) => {
-
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(pss, salt, (err, hash) => {
-          return hash;
-        });
-
-        
-        for (let i = 0; i < dataDb.length; i++) {
-            dataDb[i].password = hash
-            
-        }
-
-        console.log(dataDb.password);
-    });
-
-
-}
-
-
-const loginUser = (req, res) => {
-
-    //Function
     try {
-        let enteredUser = dataDb.find((data) => req.body.email === data.email);
-       
-        if (enteredUser) {
 
-            let passbody = req.body.password;
-            let userPass = enteredUser.password;
-            encryptPs(passbody);
+        let enteredUser = await newUser.findOne({where: {email: req.body.email}});
 
-            // const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
-            if (passbody == userPass) {
-                res.status(200).send("Succesfull");
-            } else {
-                res.status(400).send("Invalid, sorry");
+        if(enteredUser){
+            const compare = bcrypt.compareSync(req.body.password, enteredUser.password);
+            
+            if(compare){
+
+                res.json({succes: "TOKEN"})
+
             }
-        } else {
+            else {
 
-            //  let fakePass = `$2b$$10$ifgfgfgfgfgfgfggfgfgfggggfgfgfga`;
-            //  await bcrypt.compare(req.body.password, fakePass);
+                res.status(400).json({error: "Row Incorrect"});
+    
+            }
+        } 
 
-            res.send("Invalid email or password").status(500);
-        }
-    } catch {
-        res.send("Internal server error");
+    } catch (error) {
+
+        res.json({error: "Server problem"})
+
     }
+
+
 
 };
 
@@ -64,18 +39,25 @@ module.exports = {
     loginUser
 }
 
+// try {
+//     let enteredUser = await newUser.find((data) => req.body.email === data.email);
 
-// try{
-//     let enteredUser = dataDb.find((data) => req.body.email === data.email);
+//      if (enteredUser) {
+//          let passbody = req.body.password;
+//          let userPass = enteredUser.password;
+//          // const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
+//          if (passbody == userPass) {
+//              res.status(200).send("Succesfull");
+//          } else {
+//              res.status(400).send("Invalid, sorry");
+//          }
+//      } else {
 
-//     if(enteredUser){
-//         console.log(enteredUser);
-//         res.send("entro")
-//     } else {
+//          //  let fakePass = `$2b$$10$ifgfgfgfgfgfgfggfgfgfggggfgfgfga`;
+//          //  await bcrypt.compare(req.body.password, fakePass);
 
-//         res.send("ni")
-
-//     }        
-// } catch {
-//     res.send("Internal server error");
-// };
+//          res.send("Invalid email or password").status(500);
+//      }
+//  } catch {
+//      res.status(500).send("Internal server error");
+//  }

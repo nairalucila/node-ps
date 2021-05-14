@@ -1,28 +1,12 @@
 const express = require('express')
 const app = express();
 const port = 3000;
-const db = require('./global/database');
+const db = require('./database/database');
 
 
 app.get('/', function (req, res) {
   res.send('Hello World')
 })
-
-//Db conection
-
-// const connectionDB = async ()=> {
-//     try {
-
-//       await db.aunthenticate();
-      
-//     } catch (error) {
-  
-//       throw new Error(error);
-      
-//     }
-  
-// };
-
 
 
 //Otras config.
