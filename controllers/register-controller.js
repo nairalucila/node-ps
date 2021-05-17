@@ -9,10 +9,9 @@ const {
 } = require('express-validator');
 
 const checkMiddleware = [
-    check('email', 'email is required').isEmail(),
+    check('userName', 'User name is required').not().isEmpty(),
     check('password', 'password is required').not().isEmpty()
 ]
-
 
 const registerUser = async (req, res) => {
      //falta try y catch para manejar promesas y errores

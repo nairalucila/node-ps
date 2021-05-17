@@ -5,13 +5,13 @@ const secret = require('./secret');
 //Esto va sobre una ruta get, en este caso en '/' ruta inicial
 const checkToken = (req, res, next) => {
 
-    if (!req.headers['user-token']) {
+    if (!req.headers['token']) {
         return res.json({
             error: 'Put token in headers'
         })
     }
 
-    const userToken = req.headers['user-token'];
+    const userToken = req.headers['token'];
     let payload = {};
     try {
         payload = jwt.decode(userToken, secret.secret);

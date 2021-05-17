@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const user = require('../models/Users');
+const userData = require('../models/Users2');
 
 const sequelize = new Sequelize('dataDB', 'root', 'root', {
   host: 'localhost',
@@ -7,7 +7,7 @@ const sequelize = new Sequelize('dataDB', 'root', 'root', {
 
 });
 
-const newUser = user(sequelize, Sequelize);
+const newUser = userData(sequelize, Sequelize);
 
 sequelize.sync({
     force: false

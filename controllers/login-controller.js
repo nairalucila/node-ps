@@ -13,7 +13,7 @@ const loginUser = async (req, res) => {
 
         let enteredUser = await newUser.findOne({
             where: {
-                email: req.body.email
+                userName: req.body.userName
             }
         });
 
