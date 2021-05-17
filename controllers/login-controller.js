@@ -1,4 +1,7 @@
 const bcrypt = require('bcryptjs');
+const moment = require('moment');
+const jwt = require('jwt-simple');
+const secret= require('../secret');
 
 const {
     newUser
@@ -8,56 +11,50 @@ const loginUser = async (req, res) => {
 
     try {
 
-        let enteredUser = await newUser.findOne({where: {email: req.body.email}});
+        let enteredUser = await newUser.findOne({
+            where: {
+                email: req.body.email
+            }
+        });
 
-        if(enteredUser){
+        if (enteredUser) {
             const compare = bcrypt.compareSync(req.body.password, enteredUser.password);
-            
-            if(compare){
 
-                res.json({succes: "TOKEN"})
+            if (compare) {
+
+                res.status(200).json({
+                    succes: createToken(enteredUser)
+                })
+
+            } else {
+
+                res.status(400).json({
+                    error: "Row Incorrect"
+                });
 
             }
-            else {
-
-                res.status(400).json({error: "Row Incorrect"});
-    
-            }
-        } 
+        }
 
     } catch (error) {
-
-        res.json({error: "Server problem"})
+        console.log(error);
+        res.json({
+            error: "Server problem"
+        })
 
     }
-
-
-
 };
+
+const createToken = (enteredUser) => {
+    
+    const payload = {
+        userId: enteredUser.id,
+        createdAt: moment().unix(),
+        expiredAt: moment().add(5, 'minutes').unix(),
+    }
+
+    return jwt.encode(payload, secret.secret)
+}
 
 module.exports = {
     loginUser
 }
-
-// try {
-//     let enteredUser = await newUser.find((data) => req.body.email === data.email);
-
-//      if (enteredUser) {
-//          let passbody = req.body.password;
-//          let userPass = enteredUser.password;
-//          // const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
-//          if (passbody == userPass) {
-//              res.status(200).send("Succesfull");
-//          } else {
-//              res.status(400).send("Invalid, sorry");
-//          }
-//      } else {
-
-//          //  let fakePass = `$2b$$10$ifgfgfgfgfgfgfggfgfgfggggfgfgfga`;
-//          //  await bcrypt.compare(req.body.password, fakePass);
-
-//          res.send("Invalid email or password").status(500);
-//      }
-//  } catch {
-//      res.status(500).send("Internal server error");
-//  }
