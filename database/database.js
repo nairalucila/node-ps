@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
-const userData = require('../models/Users2');
+const modeloUsers = require('../models/Users2');
+const modeloRoles = require('../models/Roles');
 
 const sequelize = new Sequelize('dataDB', 'root', 'root', {
   host: 'localhost',
@@ -7,7 +8,15 @@ const sequelize = new Sequelize('dataDB', 'root', 'root', {
 
 });
 
-const newUser = userData(sequelize, Sequelize);
+const UsersData = modeloUsers(sequelize, Sequelize);
+const Roles = modeloRoles(sequelize, Sequelize);
+
+UsersData.belongsToMany(Roles, {
+  through: 'UsersRols'
+});
+Roles.belongsToMany(UsersData, {
+  through: 'UsersRols'
+});
 
 sequelize.sync({
     force: false
@@ -19,6 +28,9 @@ sequelize.sync({
     console.log(e)
   });
 
+
+
 module.exports = {
-  newUser
+  UsersData,
+  Roles
 };

@@ -26,12 +26,17 @@ module.exports = (sequelize, type) => {
             allowNull: false,
             unique: true
         },
+        // rol: {
+        //     type: type.STRING,
+        //     notNull: true,
+        //     references: {
+        //         model: 'Roles',
+        //         key: 'rol'
+        //     }
+        // },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
     })
 
 };
 
-//const dataBase = require('../global/database');
-
-//module.exports =  User;

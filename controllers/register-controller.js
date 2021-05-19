@@ -15,6 +15,7 @@ const checkMiddleware = [
 
 const registerUser = async (req, res) => {
      //falta try y catch para manejar promesas y errores
+     
     const error = validationResult(req);
     
     if (!error.isEmpty()) {
