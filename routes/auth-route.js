@@ -1,6 +1,5 @@
 const {Router} = require('express'); 
 const route = Router();
-const {checktoken} = require('../middleware'); 
 
 
 const {loginUser} = require('../controllers/login-controller');

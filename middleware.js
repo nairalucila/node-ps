@@ -2,7 +2,6 @@ const jwt = require('jwt-simple');
 const moment = require('moment');
 const secret = require('./secret');
 
-//Esto va sobre una ruta get, en este caso en '/' ruta inicial
 const checkToken = (req, res, next) => {
 
     if (!req.headers['token']) {

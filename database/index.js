@@ -1,28 +1,29 @@
 const Sequelize = require('sequelize');
-const modeloUsers = require('../models/Users2');
+const modeloUsers = require('../models/Users');
 const modeloRoles = require('../models/Roles');
 
 const sequelize = new Sequelize('dataDB', 'root', 'root', {
   host: 'localhost',
   dialect: 'mysql',
-
 });
 
-const UsersData = modeloUsers(sequelize, Sequelize);
+const Users = modeloUsers(sequelize, Sequelize);
 const Roles = modeloRoles(sequelize, Sequelize);
 
-UsersData.belongsToMany(Roles, {
-  through: 'UsersRols'
-});
-Roles.belongsToMany(UsersData, {
-  through: 'UsersRols'
-});
+Users.belongsToMany(Roles, {
+  through: 'UsersRoles',
+  foreignKey: 'user_id'
+})
+Roles.belongsToMany(Users, {
+  through: 'UsersRoles',
+  foreignKey: 'rol_id'
+})
 
 sequelize.sync({
     force: false
   })
   .then(() => {
-    console.log("Tablas Sincronizadas")
+    console.log('Tabla sincronizada')
   })
   .catch((e) => {
     console.log(e)
@@ -31,6 +32,7 @@ sequelize.sync({
 
 
 module.exports = {
-  UsersData,
+  Users,
   Roles
+
 };

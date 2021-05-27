@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+
 const {
-    newUser
-} = require('../database/database');
+    Users
+} = require('../database');
 const {
     check,
     validationResult
@@ -14,19 +15,27 @@ const checkMiddleware = [
 ]
 
 const registerUser = async (req, res) => {
-     //falta try y catch para manejar promesas y errores
-     
-    const error = validationResult(req);
-    
-    if (!error.isEmpty()) {
-        return res.status(422).json({
-            errores: error.array()
-        })
+    try {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            return res.status(422).json({
+                errores: error
+            })
+        }
+        let user;
+        req.body.password = bcrypt.hashSync(req.body.password, 10);
+        user = await Users.create(req.body);
+        res.json(user);
+
+
+    } catch (error) {
+        console.log("Server error", error);
+        res.status(500).json({
+            error: "Server error",
+        });
+
     }
 
-    req.body.password = bcrypt.hashSync(req.body.password, 10);
-    const user = await newUser.create(req.body);
-    res.json(user);
 };
 
 

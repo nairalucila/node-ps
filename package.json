@@ -7,6 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "kill": "kill -9 $(lsof -t -i:3000)",
+    "defaults:db": "node scripts/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

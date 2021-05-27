@@ -1,17 +1,17 @@
 const bcrypt = require('bcryptjs');
 const moment = require('moment');
 const jwt = require('jwt-simple');
-const secret= require('../secret');
+const secret = require('../secret');
 
 const {
-    newUser
-} = require('../database/database');
+    Users
+} = require('../database');
 
 const loginUser = async (req, res) => {
 
     try {
 
-        let enteredUser = await newUser.findOne({
+        let enteredUser = await Users.findOne({
             where: {
                 userName: req.body.userName
             }
@@ -38,14 +38,14 @@ const loginUser = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.json({
-            error: "Server problem"
+            error: "Server error"
         })
 
     }
 };
 
 const createToken = (enteredUser) => {
-    
+
     const payload = {
         userId: enteredUser.id,
         createdAt: moment().unix(),

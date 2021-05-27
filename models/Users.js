@@ -1,11 +1,10 @@
 const {
     DataTypes,
     Sequelize
-} = require('sequelize')
+} = require('sequelize');
 
 module.exports = (sequelize, type) => {
-    return sequelize.define('UsersData', {
-        // Model attributes are defined here
+    const Users = sequelize.define('Users', {
         userName: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -26,17 +25,9 @@ module.exports = (sequelize, type) => {
             allowNull: false,
             unique: true
         },
-        // rol: {
-        //     type: type.STRING,
-        //     notNull: true,
-        //     references: {
-        //         model: 'Roles',
-        //         key: 'rol'
-        //     }
-        // },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
     })
 
+return Users
 };
-
