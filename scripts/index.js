@@ -5,9 +5,8 @@ const {
     get
 } = require('../enviroment/get.env');
 
-//'dataDB', 'root', 'root'
-const sequelize = new Sequelize(get('DATABASE_NAME'), get('USER_NAME'),
-    get('DATABASE_PASSWORD'), {
+const sequelize = new Sequelize('dataDB', 'root',
+    'root', {
         host: 'localhost',
         dialect: 'mysql',
     });
