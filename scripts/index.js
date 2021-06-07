@@ -26,20 +26,6 @@ Roles.belongsToMany(Users, {
 const createUser = require('./admindefault.script');
 const createRoles = require('./rolsdefault.script')
 
-// sequelize.sync({
-//         force: true
-//     })
-//     .then(() => {
-//         createRoles(Roles).then(() => {
-//             createUser(Users).then((user) => {
-//                 user.addRole(1)
-//             })
-//         })
-//     })
-//     .catch((e) => {
-//         console.log(e)
-//     });
-
 async function execute() {
     await sequelize.sync({
         force: true
