@@ -1,11 +1,16 @@
 const Sequelize = require('sequelize');
 const modeloUsers = require('../models/Users');
 const modeloRoles = require('../models/Roles');
+const {
+    get
+} = require('../enviroment/get.env');
 
-const sequelize = new Sequelize('dataDB', 'root', 'root', {
-    host: 'localhost',
-    dialect: 'mysql',
-});
+//'dataDB', 'root', 'root'
+const sequelize = new Sequelize(get('DATABASE_NAME'), get('USER_NAME'),
+    get('DATABASE_PASSWORD'), {
+        host: 'localhost',
+        dialect: 'mysql',
+    });
 
 const Users = modeloUsers(sequelize, Sequelize);
 const Roles = modeloRoles(sequelize, Sequelize);
