@@ -22,9 +22,8 @@ const registerUser = async (req, res) => {
                 errores: error
             })
         }
-        let user;
         req.body.password = bcrypt.hashSync(req.body.password, 10);
-        user = await Users.create(req.body);
+        let user = await Users.create(req.body);
         res.json(user);
 
 

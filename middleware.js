@@ -9,7 +9,6 @@ const checkToken = (req, res, next) => {
             error: 'Put token in headers'
         })
     }
-
     const userToken = req.headers['token'];
     let payload = {};
     try {
@@ -25,7 +24,6 @@ const checkToken = (req, res, next) => {
         return res.json({
             error: 'Your token is expired, come back your home'
         })
-
     }
 
     req.userId = payload.userId;
