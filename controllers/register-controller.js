@@ -1,13 +1,6 @@
-const router = require('express').Router();
-const bcrypt = require('bcryptjs');
-
-const {
-    Users
-} = require('../database');
-const {
-    check,
-    validationResult
-} = require('express-validator');
+const bcrypt = require('bcryptjs'); 
+const { Users } = require('../database');
+const { check, validationResult } = require('express-validator');
 
 const checkMiddleware = [
     check('userName', 'User name is required').not().isEmpty(),
@@ -15,6 +8,7 @@ const checkMiddleware = [
 ]
 
 const registerUser = async (req, res) => {
+    
     try {
         const error = validationResult(req);
         if (!error.isEmpty()) {
@@ -22,11 +16,10 @@ const registerUser = async (req, res) => {
                 errores: error
             })
         }
-        let user;
-        req.body.password = bcrypt.hashSync(req.body.password, 10);
-        user = await Users.create(req.body);
-        res.json(user);
 
+        req.body.password = bcrypt.hashSync(req.body.password, 10);
+        let user = await Users.create(req.body);
+        res.json(user);
 
     } catch (error) {
         console.log("Server error", error);
@@ -35,7 +28,6 @@ const registerUser = async (req, res) => {
         });
 
     }
-
 };
 
 

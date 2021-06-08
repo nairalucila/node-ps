@@ -2,15 +2,11 @@ const bcrypt = require('bcryptjs');
 const moment = require('moment');
 const jwt = require('jwt-simple');
 const secret = require('../secret');
-
-const {
-    Users
-} = require('../database');
+const { Users } = require('../database');
 
 const loginUser = async (req, res) => {
 
     try {
-
         let enteredUser = await Users.findOne({
             where: {
                 userName: req.body.userName
@@ -21,17 +17,13 @@ const loginUser = async (req, res) => {
             const compare = bcrypt.compareSync(req.body.password, enteredUser.password);
 
             if (compare) {
-
                 res.status(200).json({
                     succes: createToken(enteredUser)
-                })
-
+                });
             } else {
-
                 res.status(400).json({
                     error: "Row Incorrect"
                 });
-
             }
         }
 
@@ -45,7 +37,6 @@ const loginUser = async (req, res) => {
 };
 
 const createToken = (enteredUser) => {
-
     const payload = {
         userId: enteredUser.id,
         createdAt: moment().unix(),
@@ -53,7 +44,7 @@ const createToken = (enteredUser) => {
     }
 
     return jwt.encode(payload, secret.secret)
-}
+};
 
 module.exports = {
     loginUser

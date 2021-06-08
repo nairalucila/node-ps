@@ -34,5 +34,4 @@ sequelize.sync({
 module.exports = {
   Users,
   Roles
-
 };
